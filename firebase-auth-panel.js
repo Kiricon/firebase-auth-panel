@@ -21,21 +21,39 @@ template.innerHTML = `
             font-size: 1.2em;
         }
 
-        fun-button {
-            color: white;
-            margin: 10px;
-        }
-        fun-button.login {
-            background-color: #4CAF50;
+        input, button {
+            outline: none;
         }
 
-        fun-button.clear {
-            background-color: #F44336;
+        input {
+            align-items: center;
+            border: 1px solid transparent;
+            border-radius: 3px;
+            box-shadow: none;
+            display: inline-flex;
+            font-size: 1rem;
+            height: 2.25em;
+            justify-content: flex-start;
+            line-height: 1.5;
+            padding-bottom: calc(0.375em - 1px);
+            padding-left: calc(0.625em - 1px);
+            padding-right: calc(0.625em - 1px);
+            padding-top: calc(0.375em - 1px);
+            position: relative;
+            vertical-align: top;
+            background-color: white;
+            border-color: #dbdbdb;
+            color: #363636;
+            box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.1);
+            max-width: 100%;
+            width: 100%;
+            box-sizing: border-box;
+            margin: 5px 0px;
         }
 
-        fun-input {
-            width: 80%;
-            margin: 10px 0px;
+        input:focus {
+            border-color: #3273dc;
+            box-shadow: 0 0 0 0.125em rgba(50, 115, 220, 0.25);
         }
 
         img {
@@ -186,4 +204,4 @@ class FirebaseLogin extends HTMLElement {
     }
 }
 
-customElements.define("firebase-login", FirebaseLogin);
+customElements.define("firebase-auth-panel", FirebaseLogin);
