@@ -8,7 +8,7 @@ template.innerHTML = `
             display: block;
             width: 400px;
             height: 500px;
-            background: #e6e6e6;
+            background: white;
             box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
             border-radius: 5px;
             left: 50%;
@@ -51,6 +51,14 @@ template.innerHTML = `
             margin: 5px 0px;
         }
 
+        .is_success {
+            border-color: #23d160;
+        }
+
+        .is_danger {
+            border-color: #ff3860;
+        }
+
         input:focus {
             border-color: #3273dc;
             box-shadow: 0 0 0 0.125em rgba(50, 115, 220, 0.25);
@@ -64,6 +72,20 @@ template.innerHTML = `
             margin: 10px;
         }
 
+        .control svg {
+            position: absolute;
+            height: 25px;
+            width: 25px;
+            z-index: 100;
+            margin-top: 11px;
+            fill: #dbdbdb;
+        }
+
+
+        .control input {
+            padding-left: 35px;
+        }
+
         svg {
             height: 45px;
             width: 45px;
@@ -72,9 +94,20 @@ template.innerHTML = `
         }
     </style>
     <img src="" />
-    <input class="email" type="text" placeholder="Email..." />
-    <br/>
-    <input class="password" type="password" placeholder="Password..."/>
+    <div class="control">
+        <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+            <path d="M0 0h24v24H0z" fill="none"/>
+        </svg>
+        <input class="email" type="text" placeholder="Email..." />
+    </div>
+    <div class="control">
+        <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 0h24v24H0z" fill="none"/>
+            <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+        </svg>
+        <input class="password" type="password" placeholder="Password..."/>
+    </div>
     <br/>
     <button class="clear">Clear</button>
     <button class="login">Login</button>
