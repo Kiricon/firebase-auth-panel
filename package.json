@@ -4,6 +4,7 @@
   "description": "A custom element implementation  of a firebase authentication panel",
   "main": "firebase-auth-panel.js",
   "scripts": {
+    "build": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -27,5 +28,8 @@
   "homepage": "https://github.com/Kiricon/firebase-auth-panel#readme",
   "dependencies": {
     "firebase": "^4.6.2"
+  },
+  "devDependencies": {
+    "webpack": "^3.8.1"
   }
 }

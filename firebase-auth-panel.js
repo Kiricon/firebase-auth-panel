@@ -140,8 +140,8 @@ class FirebaseLogin extends HTMLElement {
      * manually set in the HTML.
      * 
      * @param {String} name the name of the attribute that changed
-     * @param {Mixed} oldValue the previous value of the attribute
-     * @param {Mixed} newValue the new value of the attribute
+     * @param {string | number} oldValue the previous value of the attribute
+     * @param {string | number} newValue the new value of the attribute
      */
     attributeChangedCallback(name, oldValue, newValue) {
         // respond to a changed attribute here
