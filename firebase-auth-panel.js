@@ -1,5 +1,5 @@
 // @ts-check
-
+const firebase = require('firebase');
 
 const template = document.createElement("template");
 template.innerHTML = `
