@@ -92,6 +92,78 @@ template.innerHTML = `
             margin: 5px;
             cursor: pointer;
         }
+
+        button {
+            -moz-appearance: none;
+            -webkit-appearance: none;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            border: 1px solid transparent;
+            border-radius: 3px;
+            -webkit-box-shadow: none;
+            box-shadow: none;
+            display: -webkit-inline-box;
+            display: -ms-inline-flexbox;
+            display: inline-flex;
+            font-size: 1rem;
+            height: 2.25em;
+            -webkit-box-pack: start;
+            -ms-flex-pack: start;
+            justify-content: flex-start;
+            line-height: 1.5;
+            padding-bottom: calc(0.375em - 1px);
+            padding-left: calc(0.625em - 1px);
+            padding-right: calc(0.625em - 1px);
+            padding-top: calc(0.375em - 1px);
+            position: relative;
+            vertical-align: top;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            background-color: white;
+            border-color: #dbdbdb;
+            color: #363636;
+            cursor: pointer;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+            padding-left: 0.75em;
+            padding-right: 0.75em;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        button.is-success {
+            background-color: #23d160;
+            border-color: transparent;
+            color: #fff;
+        }
+
+        button.is-success:hover{
+            background-color: #22c65b;
+        }
+
+        button.is-success:active {
+            background-color: #20bc56;
+        }
+
+        button.is-danger {
+            background-color: #ff3860;
+            border-color: transparent;
+            color: #fff;
+        }
+
+        button.is-danger:hover {
+            background-color: #ff2b56;
+        }
+
+        button.is-danger:active {
+            background-color: #ff1f4b;
+        }
+        
     </style>
     <img src="" />
     <div class="control">
@@ -109,8 +181,8 @@ template.innerHTML = `
         <input class="password" type="password" placeholder="Password..."/>
     </div>
     <br/>
-    <button class="clear">Clear</button>
-    <button class="login">Login</button>
+    <button class="clear is-danger">Clear</button>
+    <button class="login is-success">Login</button>
 
     <div> Or Login With Social Media </div>
 
