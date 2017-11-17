@@ -21,6 +21,17 @@ template.innerHTML = `
             font-size: 1.2em;
         }
 
+          @keyframes spinAround {
+            from {
+              -webkit-transform: rotate(0deg);
+                      transform: rotate(0deg);
+            }
+            to {
+              -webkit-transform: rotate(359deg);
+                      transform: rotate(359deg);
+            }
+          }
+
         input, button {
             outline: none;
         }
@@ -163,7 +174,29 @@ template.innerHTML = `
         button.is-danger:active {
             background-color: #ff1f4b;
         }
-        
+
+        button.is-loading {
+            color: transparent !important;
+            pointer-events: none;
+        }
+
+        button.is-loading:after {
+            animation: spinAround 500ms infinite linear;
+            border: 2px solid white;
+            border-radius: 290486px;
+            border-right-color: transparent;
+            border-top-color: transparent;
+            content: "";
+            display: block;
+            height: 1em;
+            position: relative;
+            width: 1em;
+            position: absolute;
+            left: calc(50% - (1em / 2));
+            top: calc(50% - (1em / 2));
+            position: absolute !important;
+        }
+
     </style>
     <img src="" />
     <div class="control">
@@ -181,8 +214,8 @@ template.innerHTML = `
         <input class="password" type="password" placeholder="Password..."/>
     </div>
     <br/>
-    <button class="clear is-danger">Clear</button>
-    <button class="login is-success">Login</button>
+    <button class="clear is-danger"> Clear </button>
+    <button class="login is-success is-loading"> Login </button>
 
     <div> Or Login With Social Media </div>
 
