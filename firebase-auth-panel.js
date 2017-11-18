@@ -20,13 +20,14 @@ template.innerHTML = `
             display: table;
         }
 
-        .content, .loggedIn {
+        .content {
             padding: 10px;
             margin: 0px;
         }
 
         .content {
             margin-bottom: 30px;
+            margin-top: 60px;
         }
           @keyframes spinAround {
             from {
@@ -211,14 +212,21 @@ template.innerHTML = `
             border-top-left-radius: 3px;
             border-top-right-radius: 3px;
             box-sizing: border-box;
+            position: absolute;
+            transition: all ease 0.3s;
+            padding: 0px 10px;
+            margin:0px;
+            color: white;
         }
 
         .loggedIn.show {
-            height: 20px;
+            height: 60px;
+            padding: 10px 10px;
         }
 
     </style>
-    <div class="loggedIn show">
+    <div class="loggedIn">
+        Logged In as <span id="displayName"></span>
     </div>
     <div class="content">
         <img src="" />
@@ -288,6 +296,8 @@ class FirebaseLogin extends HTMLElement {
             this.loginButton = this.shadowRoot.querySelector('.login');
             this.emailInput = this.shadowRoot.querySelector('input.email');
             this.passwordInput = this.shadowRoot.querySelector('.password');
+            this.loggedInPanel = this.shadowRoot.querySelector('.loggedIn');
+            this.displayName = this.shadowRoot.querySelector('#displayName');
 
         }
 
@@ -356,8 +366,10 @@ class FirebaseLogin extends HTMLElement {
         this.auth.onAuthStateChanged((user) => {
             if (user) {
               // User is signed in.
-              console.log(user);
-              // ...
+              console.log(user.email);
+              this.loggedInPanel.className = 'loggedIn show';
+              this.displayName.innerHTML = user.displayName || user.email;
+              // ... 
             } else {
               // User is signed out.
               // ...
