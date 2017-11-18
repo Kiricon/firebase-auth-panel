@@ -149,6 +149,7 @@ template.innerHTML = `
             padding-right: 0.75em;
             text-align: center;
             white-space: nowrap;
+            margin: 5px 0px;
         }
 
         .is-success {
@@ -171,6 +172,12 @@ template.innerHTML = `
             color: #fff;
         }
 
+        .is-link {
+            background-color: #3273dc;
+            border-color: transparent;
+            color: #fff;
+        }
+
         button.is-danger:hover {
             background-color: #ff2b56;
         }
@@ -182,6 +189,10 @@ template.innerHTML = `
         button.is-loading {
             color: transparent !important;
             pointer-events: none;
+        }
+
+        button.wide {
+            width: 100%;
         }
 
         button.is-loading:after {
@@ -245,9 +256,12 @@ template.innerHTML = `
             </svg>
             <input class="password" type="password" placeholder="Password..."/>
         </div>
+
         <br/>
-        <button class="clear is-danger"> Clear </button>
-        <button class="login is-success"> Login </button>
+        <button id="register" class="is-success wide">Register</button>
+        <br/>
+        <button id="clear" class="is-danger"> Clear </button>
+        <button id="login" class="is-link"> Login </button>
 
         <div> Or Login With Social Media </div>
 
@@ -294,8 +308,9 @@ class FirebaseLogin extends HTMLElement {
                 logo.src = this.getAttribute('logo') || '';
             }
 
-            this.loginButton = this.shadowRoot.querySelector('.login');
-            this.clearButton = this.shadowRoot.querySelector('.clear');
+            this.loginButton = this.shadowRoot.querySelector('#login');
+            this.clearButton = this.shadowRoot.querySelector('#clear');
+            this.regButton = this.shadowRoot.querySelector('#register');
             this.emailInput = this.shadowRoot.querySelector('input.email');
             this.passwordInput = this.shadowRoot.querySelector('.password');
             this.loggedInPanel = this.shadowRoot.querySelector('#loggedIn');
@@ -317,6 +332,10 @@ class FirebaseLogin extends HTMLElement {
 
         this.loginButton.addEventListener('click', () => {
             this.loginUser(this.emailInput.value, this.passwordInput.value);
+        });
+
+        this.regButton.addEventListener('click', () => {
+            this.createUser(this.emailInput.value, this.passwordInput.value);
         });
 
         this.clearButton.addEventListener('click', () => {
@@ -355,20 +374,27 @@ class FirebaseLogin extends HTMLElement {
     }
 
     createUser(email, password) {
+        this.regButton.classList.add('is-loading');
         this.auth.createUserWithEmailAndPassword(email, password)
             .catch( (error) => {
                 if(error) {
-                    console.log(error.message);
-                }else {
-                    console.log('user created');
+                    if(error.code === 'auth/email-already-in-use') {
+                        this.emailInput.classList.add('is_danger');
+                    }else if (error.code === 'auth/weak-password') {
+                        this.passwordInput.classList.add('is_danger');
+                    }
+                    this.errorMessage.innerHTML = error.message;
+                    this.errorMessage.classList.add('show');
                 }
+
+                this.regButton.classList.remove('is-loading');
           });
     }
 
     loginUser(email , password){
         console.log(email);
         console.log(password);
-        this.loginButton.className = 'login is-success is-loading';
+        this.loginButton.classList.add('is-loading');
         this.auth.signInWithEmailAndPassword(email, password)
             .catch((error) => {
     
@@ -383,11 +409,11 @@ class FirebaseLogin extends HTMLElement {
                     
                     this.errorMessage.innerHTML = error.message;
                     this.errorMessage.classList.add('show');
-                }else {
-                    console.log('User logged in!');
-
                 }
 
+                if(this.regButton.classList.contains('is-loading')) {
+                    this.regButton.classList.remove('is-loading');
+                }
                 this.loginButton.classList.remove('is-loading');
           });
     }
@@ -404,13 +430,14 @@ class FirebaseLogin extends HTMLElement {
                 this.loginButton.classList.remove('is-loading');
             }
 
+            if(this.regButton.classList.contains('is-loading')) {
+                this.regButton.classList.remove('is-loading');
+            }
+
             if(this.errorMessage.classList.contains('show')) {
                 this.errorMessage.classList.remove('show');
             }
               // ... 
-            } else {
-              // User is signed out.
-              // ...
             }
           });
     }
