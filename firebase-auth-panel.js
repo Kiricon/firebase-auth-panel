@@ -212,6 +212,7 @@ template.innerHTML = `
             padding: 0px 10px;
             margin:0px;
             color: white;
+            font-size: 0.8em;
         }
 
         #loggedIn.show, #errorMessage.show {
@@ -221,7 +222,7 @@ template.innerHTML = `
 
     </style>
     <div id="loggedIn" class="is-success">
-        Logged In as <span id="displayName"></span>
+        Logged In as <br/> <span id="displayName"></span>
     </div>
     <div id="errorMessage" class="is-danger">
     </div>
@@ -312,6 +313,7 @@ class FirebaseLogin extends HTMLElement {
         });
 
         this.listenForUser();
+        this.inputChangeListeners();
     }
 
     /**
@@ -349,16 +351,26 @@ class FirebaseLogin extends HTMLElement {
     loginUser(email , password){
         console.log(email);
         console.log(password);
+        this.loginButton.className = 'login is-success is-loading';
         this.auth.signInWithEmailAndPassword(email, password)
             .catch((error) => {
     
                 if (error) {
-                    console.log(error.message);
+                    console.log(error.code);
+
+                    if(error.code === 'auth/user-not-found' || error.code === 'auth/invalid-email') {
+                        this.emailInput.classList.add('is_danger');
+                    }else if(error.code === 'auth/wrong-password') {
+                        this.passwordInput.classList.add('is_danger');
+                    }
+                    
                     this.errorMessage.innerHTML = error.message;
-                    this.errorMessage.className = 'show is-danger';
+                    this.errorMessage.classList.add('show');
                 }else {
                     console.log('User logged in!');
                 }
+
+                this.loginButton.classList.remove('is-loading');
           });
     }
 
@@ -367,7 +379,7 @@ class FirebaseLogin extends HTMLElement {
             if (user) {
               // User is signed in.
               console.log(user.email);
-              this.loggedInPanel.className = 'show is-success';
+              this.loggedInPanel.classList.add('show');
               this.displayName.innerHTML = user.displayName || user.email;
               // ... 
             } else {
@@ -375,6 +387,17 @@ class FirebaseLogin extends HTMLElement {
               // ...
             }
           });
+    }
+
+    inputChangeListeners() {
+        this.emailInput.addEventListener('change', this.removeDanger);
+        this.passwordInput.addEventListener('change', this.removeDanger);
+    }
+
+    removeDanger(e) {
+        if(e.target.classList.contains('is_danger')) {
+            e.target.classList.remove('is_danger');
+        }
     }
 }
 
