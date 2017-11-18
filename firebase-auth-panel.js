@@ -213,11 +213,13 @@ template.innerHTML = `
             margin:0px;
             color: white;
             font-size: 0.8em;
+            color: rgba(255, 255, 255, 0);
         }
 
         #loggedIn.show, #errorMessage.show {
             height: 60px;
             padding: 10px 10px;
+            color: rgba(255, 255, 255, 1);
         }
 
     </style>
@@ -298,6 +300,7 @@ class FirebaseLogin extends HTMLElement {
             this.displayName = this.shadowRoot.querySelector('#displayName');
             this.errorMessage = this.shadowRoot.querySelector('#errorMessage');
 
+
         }
 
         const config = {
@@ -307,6 +310,8 @@ class FirebaseLogin extends HTMLElement {
         
         this.firebase = firebase.initializeApp(config);
         this.auth = this.firebase.auth();
+
+        this.auth.signOut();
 
         this.loginButton.addEventListener('click', () => {
             this.loginUser(this.emailInput.value, this.passwordInput.value);
@@ -368,6 +373,7 @@ class FirebaseLogin extends HTMLElement {
                     this.errorMessage.classList.add('show');
                 }else {
                     console.log('User logged in!');
+
                 }
 
                 this.loginButton.classList.remove('is-loading');
@@ -381,6 +387,14 @@ class FirebaseLogin extends HTMLElement {
               console.log(user.email);
               this.loggedInPanel.classList.add('show');
               this.displayName.innerHTML = user.displayName || user.email;
+
+            if(this.loginButton.classList.contains('is-loading')) {
+                this.loginButton.classList.remove('is-loading');
+            }
+
+            if(this.errorMessage.classList.contains('show')) {
+                this.errorMessage.classList.remove('show');
+            }
               // ... 
             } else {
               // User is signed out.
