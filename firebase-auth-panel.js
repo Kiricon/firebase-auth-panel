@@ -295,6 +295,7 @@ class FirebaseLogin extends HTMLElement {
             }
 
             this.loginButton = this.shadowRoot.querySelector('.login');
+            this.clearButton = this.shadowRoot.querySelector('.clear');
             this.emailInput = this.shadowRoot.querySelector('input.email');
             this.passwordInput = this.shadowRoot.querySelector('.password');
             this.loggedInPanel = this.shadowRoot.querySelector('#loggedIn');
@@ -316,6 +317,10 @@ class FirebaseLogin extends HTMLElement {
 
         this.loginButton.addEventListener('click', () => {
             this.loginUser(this.emailInput.value, this.passwordInput.value);
+        });
+
+        this.clearButton.addEventListener('click', () => {
+            this.clear();
         });
 
         this.passwordInput.addEventListener('keyup', (e) => {
@@ -419,6 +424,11 @@ class FirebaseLogin extends HTMLElement {
         if(e.target.classList.contains('is_danger')) {
             e.target.classList.remove('is_danger');
         }
+    }
+
+    clear() {
+        this.emailInput.value = '';
+        this.passwordInput.value = '';
     }
 }
 
