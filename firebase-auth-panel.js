@@ -22,13 +22,9 @@ template.innerHTML = `
 
         .content {
             padding: 10px;
-            margin: 0px;
+            margin: 60px 0px 30px 0px;
         }
 
-        .content {
-            margin-bottom: 30px;
-            margin-top: 60px;
-        }
           @keyframes spinAround {
             from {
               -webkit-transform: rotate(0deg);
@@ -155,7 +151,7 @@ template.innerHTML = `
             white-space: nowrap;
         }
 
-        button.is-success {
+        .is-success {
             background-color: #23d160;
             border-color: transparent;
             color: #fff;
@@ -169,7 +165,7 @@ template.innerHTML = `
             background-color: #20bc56;
         }
 
-        button.is-danger {
+        .is-danger {
             background-color: #ff3860;
             border-color: transparent;
             color: #fff;
@@ -205,8 +201,7 @@ template.innerHTML = `
             position: absolute !important;
         }
 
-        .loggedIn {
-            background-color: #20bc56;
+        #loggedIn, #errorMessage {
             height: 0px;
             width: 100%;
             border-top-left-radius: 3px;
@@ -219,14 +214,16 @@ template.innerHTML = `
             color: white;
         }
 
-        .loggedIn.show {
+        #loggedIn.show, #errorMessage.show {
             height: 60px;
             padding: 10px 10px;
         }
 
     </style>
-    <div class="loggedIn">
+    <div id="loggedIn" class="is-success">
         Logged In as <span id="displayName"></span>
+    </div>
+    <div id="errorMessage" class="is-danger">
     </div>
     <div class="content">
         <img src="" />
@@ -246,7 +243,7 @@ template.innerHTML = `
         </div>
         <br/>
         <button class="clear is-danger"> Clear </button>
-        <button class="login is-success is-loading"> Login </button>
+        <button class="login is-success"> Login </button>
 
         <div> Or Login With Social Media </div>
 
@@ -296,8 +293,9 @@ class FirebaseLogin extends HTMLElement {
             this.loginButton = this.shadowRoot.querySelector('.login');
             this.emailInput = this.shadowRoot.querySelector('input.email');
             this.passwordInput = this.shadowRoot.querySelector('.password');
-            this.loggedInPanel = this.shadowRoot.querySelector('.loggedIn');
+            this.loggedInPanel = this.shadowRoot.querySelector('#loggedIn');
             this.displayName = this.shadowRoot.querySelector('#displayName');
+            this.errorMessage = this.shadowRoot.querySelector('#errorMessage');
 
         }
 
@@ -356,6 +354,8 @@ class FirebaseLogin extends HTMLElement {
     
                 if (error) {
                     console.log(error.message);
+                    this.errorMessage.innerHTML = error.message;
+                    this.errorMessage.className = 'show is-danger';
                 }else {
                     console.log('User logged in!');
                 }
@@ -367,7 +367,7 @@ class FirebaseLogin extends HTMLElement {
             if (user) {
               // User is signed in.
               console.log(user.email);
-              this.loggedInPanel.className = 'loggedIn show';
+              this.loggedInPanel.className = 'show is-success';
               this.displayName.innerHTML = user.displayName || user.email;
               // ... 
             } else {
