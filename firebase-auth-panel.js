@@ -150,6 +150,7 @@ template.innerHTML = `
             text-align: center;
             white-space: nowrap;
             margin: 5px 0px;
+            width: 40%;
         }
 
         .is-success {
@@ -212,7 +213,7 @@ template.innerHTML = `
             position: absolute !important;
         }
 
-        #loggedIn, #errorMessage {
+        #popupMessage {
             height: 0px;
             width: 100%;
             border-top-left-radius: 3px;
@@ -227,17 +228,14 @@ template.innerHTML = `
             color: rgba(255, 255, 255, 0);
         }
 
-        #loggedIn.show, #errorMessage.show {
+        #popupMessage.show {
             height: 60px;
             padding: 10px 10px;
             color: rgba(255, 255, 255, 1);
         }
 
     </style>
-    <div id="loggedIn" class="is-success">
-        Logged In as <br/> <span id="displayName"></span>
-    </div>
-    <div id="errorMessage" class="is-danger">
+    <div id="popupMessage"></div>
     </div>
     <div class="content">
         <img src="" />
@@ -313,9 +311,8 @@ class FirebaseLogin extends HTMLElement {
             this.regButton = this.shadowRoot.querySelector('#register');
             this.emailInput = this.shadowRoot.querySelector('input.email');
             this.passwordInput = this.shadowRoot.querySelector('.password');
-            this.loggedInPanel = this.shadowRoot.querySelector('#loggedIn');
+            this.popupMessage = this.shadowRoot.querySelector('#popupMessage');
             this.displayName = this.shadowRoot.querySelector('#displayName');
-            this.errorMessage = this.shadowRoot.querySelector('#errorMessage');
 
 
         }
@@ -383,8 +380,7 @@ class FirebaseLogin extends HTMLElement {
                     }else if (error.code === 'auth/weak-password') {
                         this.passwordInput.classList.add('is_danger');
                     }
-                    this.errorMessage.innerHTML = error.message;
-                    this.errorMessage.classList.add('show');
+                    this.showError(error.message);
                 }
 
                 this.regButton.classList.remove('is-loading');
@@ -407,8 +403,7 @@ class FirebaseLogin extends HTMLElement {
                         this.passwordInput.classList.add('is_danger');
                     }
                     
-                    this.errorMessage.innerHTML = error.message;
-                    this.errorMessage.classList.add('show');
+                    this.showError(error.message);
                 }
 
                 if(this.regButton.classList.contains('is-loading')) {
@@ -422,9 +417,8 @@ class FirebaseLogin extends HTMLElement {
         this.auth.onAuthStateChanged((user) => {
             if (user) {
               // User is signed in.
-              console.log(user.email);
-              this.loggedInPanel.classList.add('show');
-              this.displayName.innerHTML = user.displayName || user.email;
+              const successString = `Logged in as: <br/> ${user.displayName || user.email}`;
+              this.showSuccess(successString);
 
             if(this.loginButton.classList.contains('is-loading')) {
                 this.loginButton.classList.remove('is-loading');
@@ -432,10 +426,6 @@ class FirebaseLogin extends HTMLElement {
 
             if(this.regButton.classList.contains('is-loading')) {
                 this.regButton.classList.remove('is-loading');
-            }
-
-            if(this.errorMessage.classList.contains('show')) {
-                this.errorMessage.classList.remove('show');
             }
               // ... 
             }
@@ -456,6 +446,44 @@ class FirebaseLogin extends HTMLElement {
     clear() {
         this.emailInput.value = '';
         this.passwordInput.value = '';
+    }
+
+    resetMessage() {
+        const removeClasses = ['is-danger', 'is-success'];
+        removeClasses.forEach((className) => {
+            if(this.popupMessage.classList.contains(className)) {
+                this.popupMessage.classList.remove(className);
+            }
+        });
+    }
+
+    showError(message) {
+        this.showMessage(message, true);
+    }
+
+    showSuccess(message) {
+        this.showMessage(message, false);
+    }
+
+    showMessage(message, isError) {
+        isError = isError || false;
+        this.resetMessage();
+        if(isError) {
+            this.popupMessage.classList.add('is-danger');
+        }else {
+            this.popupMessage.classList.add('is-success');
+        }
+
+        this.popupMessage.innerHTML = message;
+        this.popupMessage.classList.add('show');
+    }
+
+    sendPasswordReset() {
+        this.auth.sendPasswordResetEmail(this.emailInput.value).then(function() {
+            
+          }).catch(function(error) {
+            // An error happened.
+          });
     }
 }
 
