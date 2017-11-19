@@ -37,7 +37,7 @@ require("firebase-auth-panel");
     const panel = document.querySelector('firebase-auth-panel');
     const config = {
         apiKey: '[your api key here...]',
-        authDomain: '[your auth domain here...],
+        authDomain: '[your auth domain here...]',
     };
 
     firebase.initializeApp(config);
