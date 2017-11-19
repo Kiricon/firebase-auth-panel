@@ -5,8 +5,6 @@ const template = document.createElement("template");
 template.innerHTML = `
     <style>
         :host {
-            width: 400px;
-            height: 500px;
             background: white;
             box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
             border-radius: 5px;
@@ -14,6 +12,7 @@ template.innerHTML = `
             font-size: 1.2em;
             display: table;
             position: relative;
+            overflow: hidden;
         }
 
         .hide {
@@ -22,7 +21,7 @@ template.innerHTML = `
 
         .content {
             padding: 10px;
-            margin: 60px 0px 30px 0px;
+            margin: 30px 0px 10px 0px;
         }
 
           @keyframes spinAround {
@@ -225,8 +224,6 @@ template.innerHTML = `
         #popupMessage {
             height: 0px;
             width: 100%;
-            border-top-left-radius: 3px;
-            border-top-right-radius: 3px;
             box-sizing: border-box;
             position: absolute;
             transition: all ease 0.3s;
@@ -335,31 +332,16 @@ class FirebaseLogin extends HTMLElement {
         // create shadow root for any children context
         this.attachShadow({mode: "open"});
         this.shadowRoot.appendChild(template.content.cloneNode(true));
-    }
-
-    /**
-     * Part of the custom element spec. Called after your element is attached to
-     * the DOM. Do anything related to the element or its children here in most
-     * cases.
-     */
-    connectedCallback() {
-        if(this.shadowRoot) {
-            const logo = this.shadowRoot.querySelector('img');
-            if(logo) {
-                logo.src = this.getAttribute('logo') || '';
-            }
-
-            this.loginButton = this.shadowRoot.querySelector('#login');
-            this.clearButton = this.shadowRoot.querySelector('#clear');
-            this.regButton = this.shadowRoot.querySelector('#register');
-            this.emailInput = this.shadowRoot.querySelector('input.email');
-            this.passwordInput = this.shadowRoot.querySelector('.password');
-            this.popupMessage = this.shadowRoot.querySelector('#popupMessage');
-            this.displayName = this.shadowRoot.querySelector('#displayName');
-            this.forgotPasswordLink = this.shadowRoot.querySelector('a');
-            this.resetPasswordButton = this.shadowRoot.querySelector('#resetPassword');
-            this.backButton = this.shadowRoot.querySelector('#backButton');
-        }
+        this.loginButton = this.shadowRoot.querySelector('#login');
+        this.clearButton = this.shadowRoot.querySelector('#clear');
+        this.regButton = this.shadowRoot.querySelector('#register');
+        this.emailInput = this.shadowRoot.querySelector('input.email');
+        this.passwordInput = this.shadowRoot.querySelector('.password');
+        this.popupMessage = this.shadowRoot.querySelector('#popupMessage');
+        this.displayName = this.shadowRoot.querySelector('#displayName');
+        this.forgotPasswordLink = this.shadowRoot.querySelector('a');
+        this.resetPasswordButton = this.shadowRoot.querySelector('#resetPassword');
+        this.backButton = this.shadowRoot.querySelector('#backButton');
 
         const config = {
             apiKey: this.getAttribute('api-key'),
@@ -368,8 +350,20 @@ class FirebaseLogin extends HTMLElement {
         
         this.firebase = firebase.initializeApp(config);
         this.auth = this.firebase.auth();
+    }
 
-        this.auth.signOut();
+    /**
+     * Part of the custom element spec. Called after your element is attached to
+     * the DOM. Do anything related to the element or its children here in most
+     * cases.
+     */
+    connectedCallback() {
+        const logo = this.shadowRoot.querySelector('img');
+        if(logo) {
+            logo.src = this.getAttribute('logo') || '';
+        } else {
+            logo.style.display = 'none';
+        }
 
         this.loginButton.addEventListener('click', () => {
             this.loginUser(this.emailInput.value, this.passwordInput.value);
