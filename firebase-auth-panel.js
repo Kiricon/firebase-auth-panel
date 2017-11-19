@@ -20,6 +20,10 @@ template.innerHTML = `
             display: table;
         }
 
+        .hide {
+            display:none;
+        }
+
         .content {
             padding: 10px;
             margin: 60px 0px 30px 0px;
@@ -178,6 +182,10 @@ template.innerHTML = `
             border-color: transparent;
             color: #fff;
         }
+        a {
+            color: #3273dc;
+            cursor: pointer;
+        }
 
         button.is-danger:hover {
             background-color: #ff2b56;
@@ -247,7 +255,7 @@ template.innerHTML = `
             </svg>
             <input class="email" type="text" placeholder="Email..." />
         </div>
-        <div class="control">
+        <div id="passwordControl" class="control">
             <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
                 <path d="M0 0h24v24H0z" fill="none"/>
                 <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
@@ -257,26 +265,31 @@ template.innerHTML = `
 
         <br/>
         <button id="register" class="is-success wide">Register</button>
+        <button id="resetPassword" class="is-link wide hide">Send Password Reset Email</button>
         <br/>
         <button id="clear" class="is-danger"> Clear </button>
         <button id="login" class="is-link"> Login </button>
+        <br/>
+        <a>Forgot your password?</a>
 
-        <div> Or Login With Social Media </div>
+        <div id="alternateLogins">
+            <div> Or Login With Social Media </div>
 
-        <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-            <path d="M19.6 10.23c0-.82-.1-1.42-.25-2.05H10v3.72h5.5c-.15.96-.74 2.31-2.04 3.22v2.45h3.16c1.89-1.73 2.98-4.3 2.98-7.34z" fill="#4285F4"/>
-            <path d="M13.46 15.13c-.83.59-1.96 1-3.46 1-2.64 0-4.88-1.74-5.68-4.15H1.07v2.52C2.72 17.75 6.09 20 10 20c2.7 0 4.96-.89 6.62-2.42l-3.16-2.45z" fill="#34A853"/>
-            <path d="M3.99 10c0-.69.12-1.35.32-1.97V5.51H1.07A9.973 9.973 0 0 0 0 10c0 1.61.39 3.14 1.07 4.49l3.24-2.52c-.2-.62-.32-1.28-.32-1.97z" fill="#FBBC05"/>
-            <path d="M10 3.88c1.88 0 3.13.81 3.85 1.48l2.84-2.76C14.96.99 12.7 0 10 0 6.09 0 2.72 2.25 1.07 5.51l3.24 2.52C5.12 5.62 7.36 3.88 10 3.88z" fill="#EA4335"/>
-        </svg>
+            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M19.6 10.23c0-.82-.1-1.42-.25-2.05H10v3.72h5.5c-.15.96-.74 2.31-2.04 3.22v2.45h3.16c1.89-1.73 2.98-4.3 2.98-7.34z" fill="#4285F4"/>
+                <path d="M13.46 15.13c-.83.59-1.96 1-3.46 1-2.64 0-4.88-1.74-5.68-4.15H1.07v2.52C2.72 17.75 6.09 20 10 20c2.7 0 4.96-.89 6.62-2.42l-3.16-2.45z" fill="#34A853"/>
+                <path d="M3.99 10c0-.69.12-1.35.32-1.97V5.51H1.07A9.973 9.973 0 0 0 0 10c0 1.61.39 3.14 1.07 4.49l3.24-2.52c-.2-.62-.32-1.28-.32-1.97z" fill="#FBBC05"/>
+                <path d="M10 3.88c1.88 0 3.13.81 3.85 1.48l2.84-2.76C14.96.99 12.7 0 10 0 6.09 0 2.72 2.25 1.07 5.51l3.24 2.52C5.12 5.62 7.36 3.88 10 3.88z" fill="#EA4335"/>
+            </svg>
 
-        <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-            <path d="M18.007 19c.55 0 .993-.444.993-.993V1.993c0-.55-.444-.993-.993-.993H1.993C1.443 1 1 1.444 1 1.993v16.014c0 .55.444.993.993.993h16.014zm-4.587 0v-6.97h2.34l.35-2.717h-2.69V7.578c0-.786.218-1.322 1.346-1.322h1.438v-2.43c-.25-.034-1.102-.108-2.096-.108-2.073 0-3.494 1.267-3.494 3.59v2.005H8.268v2.717h2.346V19h2.806z" fill="#3B5998" fill-rule="evenodd"/>
-        </svg>
-        
-        <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-            <path d="M20 3.924c-.736.326-1.527.547-2.357.646.848-.508 1.498-1.312 1.804-2.27-.792.47-1.67.812-2.605.996C16.092 2.498 15.027 2 13.847 2 11.58 2 9.743 3.837 9.743 6.103c0 .322.037.635.107.935-3.41-.17-6.434-1.804-8.458-4.287-.352.61-.555 1.314-.555 2.066 0 1.423.724 2.68 1.825 3.415-.672-.02-1.305-.206-1.858-.513v.052c0 1.987 1.414 3.645 3.29 4.022-.344.096-.706.146-1.08.146-.265 0-.522-.026-.772-.074.522 1.63 2.037 2.818 3.833 2.85C4.67 15.81 2.9 16.468.98 16.468c-.332 0-.66-.02-.98-.057 1.816 1.166 3.973 1.846 6.29 1.846 7.547 0 11.674-6.253 11.674-11.675 0-.18-.004-.355-.01-.53.8-.58 1.496-1.3 2.046-2.125" fill="#55ACEE" fill-rule="evenodd"/>
-        </svg>
+            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18.007 19c.55 0 .993-.444.993-.993V1.993c0-.55-.444-.993-.993-.993H1.993C1.443 1 1 1.444 1 1.993v16.014c0 .55.444.993.993.993h16.014zm-4.587 0v-6.97h2.34l.35-2.717h-2.69V7.578c0-.786.218-1.322 1.346-1.322h1.438v-2.43c-.25-.034-1.102-.108-2.096-.108-2.073 0-3.494 1.267-3.494 3.59v2.005H8.268v2.717h2.346V19h2.806z" fill="#3B5998" fill-rule="evenodd"/>
+            </svg>
+            
+            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 3.924c-.736.326-1.527.547-2.357.646.848-.508 1.498-1.312 1.804-2.27-.792.47-1.67.812-2.605.996C16.092 2.498 15.027 2 13.847 2 11.58 2 9.743 3.837 9.743 6.103c0 .322.037.635.107.935-3.41-.17-6.434-1.804-8.458-4.287-.352.61-.555 1.314-.555 2.066 0 1.423.724 2.68 1.825 3.415-.672-.02-1.305-.206-1.858-.513v.052c0 1.987 1.414 3.645 3.29 4.022-.344.096-.706.146-1.08.146-.265 0-.522-.026-.772-.074.522 1.63 2.037 2.818 3.833 2.85C4.67 15.81 2.9 16.468.98 16.468c-.332 0-.66-.02-.98-.057 1.816 1.166 3.973 1.846 6.29 1.846 7.547 0 11.674-6.253 11.674-11.675 0-.18-.004-.355-.01-.53.8-.58 1.496-1.3 2.046-2.125" fill="#55ACEE" fill-rule="evenodd"/>
+            </svg>
+        </div>
     </div>
 
 `;
@@ -313,6 +326,8 @@ class FirebaseLogin extends HTMLElement {
             this.passwordInput = this.shadowRoot.querySelector('.password');
             this.popupMessage = this.shadowRoot.querySelector('#popupMessage');
             this.displayName = this.shadowRoot.querySelector('#displayName');
+            this.forgotPasswordLink = this.shadowRoot.querySelector('a');
+            this.resetPasswordButton = this.shadowRoot.querySelector('#resetPassword');
 
 
         }
@@ -343,6 +358,14 @@ class FirebaseLogin extends HTMLElement {
             if(e.keyCode == 13) {
                 this.loginUser(this.emailInput.value, this.passwordInput.value);
             }
+        });
+
+        this.forgotPasswordLink.addEventListener('click', () => {
+            this.showPasswordReset();
+        });
+
+        this.resetPasswordButton.addEventListener('click', () => {
+            this.sendPasswordReset();
         });
 
         this.listenForUser();
@@ -479,11 +502,25 @@ class FirebaseLogin extends HTMLElement {
     }
 
     sendPasswordReset() {
-        this.auth.sendPasswordResetEmail(this.emailInput.value).then(function() {
-            
-          }).catch(function(error) {
+        this.resetPasswordButton.classList.add('is-loading');
+        this.auth.sendPasswordResetEmail(this.emailInput.value).then(() => {
+            this.resetPasswordButton.classList.remove('is-loading');
+            this.showSuccess("Password reset email sent!");
+          }).catch((error) => {
+            this.resetPasswordButton.classList.remove('is-loading');
+            this.showError(error.message);
             // An error happened.
           });
+    }
+
+    showPasswordReset() {
+        this.shadowRoot.querySelector('#passwordControl').classList.add('hide');
+        this.regButton.classList.add('hide');
+        this.clearButton.classList.add('hide');
+        this.loginButton.classList.add('hide');
+        this.forgotPasswordLink.classList.add('hide');
+        this.shadowRoot.querySelector('#alternateLogins').classList.add('hide');
+        this.resetPasswordButton.classList.remove('hide');
     }
 }
 
