@@ -13,6 +13,7 @@ template.innerHTML = `
             text-align: center;
             font-size: 1.2em;
             display: table;
+            position: relative;
         }
 
         .hide {
