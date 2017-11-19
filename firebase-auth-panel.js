@@ -1,6 +1,3 @@
-// @ts-check
-const firebase = require('firebase');
-
 const template = document.createElement("template");
 template.innerHTML = `
     <style>
@@ -342,14 +339,6 @@ class FirebaseLogin extends HTMLElement {
         this.forgotPasswordLink = this.shadowRoot.querySelector('a');
         this.resetPasswordButton = this.shadowRoot.querySelector('#resetPassword');
         this.backButton = this.shadowRoot.querySelector('#backButton');
-
-        const config = {
-            apiKey: this.getAttribute('api-key'),
-            authDomain: this.getAttribute('auth-domain'),
-          };
-        
-        this.firebase = firebase.initializeApp(config);
-        this.auth = this.firebase.auth();
     }
 
     /**
@@ -395,7 +384,6 @@ class FirebaseLogin extends HTMLElement {
             this.showDefaultScreen();
         });
 
-        this.listenForUser();
         this.inputChangeListeners();
         this.showAltLogins();
     }
@@ -480,7 +468,7 @@ class FirebaseLogin extends HTMLElement {
             }
               // ... 
             }
-          });
+        });
     }
 
     inputChangeListeners() {
@@ -589,6 +577,13 @@ class FirebaseLogin extends HTMLElement {
           }).catch((error) => {
                 this.showError(error.message);
           });
+    }
+
+    setFirebase(firebase) {
+        this.firebase = firebase;
+        this.auth = firebase.auth();
+
+        this.listenForUser();
     }
 }
 
