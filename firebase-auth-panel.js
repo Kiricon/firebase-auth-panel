@@ -242,7 +242,26 @@ template.innerHTML = `
             color: rgba(255, 255, 255, 1);
         }
 
+        #backButton {
+            position:absolute;
+            left: 0px;
+            z-index: 2;
+            margin: 0px;
+            opacity: 0;
+            transition: opacity ease 0.3s;
+        }
+
+        #backButton.show {
+            opacity: 1;
+        }
+
     </style>
+    <div id="backButton">
+    <svg fill="#000000" height="15" viewBox="0 0 24 24" width="15" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 0h24v24H0z" fill="none"/>
+        <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+    </svg>
+    </div>
     <div id="popupMessage"></div>
     </div>
     <div class="content">
@@ -328,8 +347,7 @@ class FirebaseLogin extends HTMLElement {
             this.displayName = this.shadowRoot.querySelector('#displayName');
             this.forgotPasswordLink = this.shadowRoot.querySelector('a');
             this.resetPasswordButton = this.shadowRoot.querySelector('#resetPassword');
-
-
+            this.backButton = this.shadowRoot.querySelector('#backButton');
         }
 
         const config = {
@@ -366,6 +384,10 @@ class FirebaseLogin extends HTMLElement {
 
         this.resetPasswordButton.addEventListener('click', () => {
             this.sendPasswordReset();
+        });
+
+        this.backButton.addEventListener('click', () => {
+            this.showDefaultScreen();
         });
 
         this.listenForUser();
@@ -521,6 +543,18 @@ class FirebaseLogin extends HTMLElement {
         this.forgotPasswordLink.classList.add('hide');
         this.shadowRoot.querySelector('#alternateLogins').classList.add('hide');
         this.resetPasswordButton.classList.remove('hide');
+        this.backButton.classList.add('show');
+    }
+
+    showDefaultScreen() {
+        this.shadowRoot.querySelector('#passwordControl').classList.remove('hide');
+        this.regButton.classList.remove('hide');
+        this.clearButton.classList.remove('hide');
+        this.loginButton.classList.remove('hide');
+        this.forgotPasswordLink.classList.remove('hide');
+        this.shadowRoot.querySelector('#alternateLogins').classList.remove('hide');
+        this.resetPasswordButton.classList.add('hide');
+        this.backButton.classList.remove('show');
     }
 }
 
