@@ -385,7 +385,6 @@ class FirebaseLogin extends HTMLElement {
         });
 
         this.inputChangeListeners();
-        this.showAltLogins();
     }
 
     /**
@@ -584,6 +583,7 @@ class FirebaseLogin extends HTMLElement {
         this.auth = firebase.auth();
 
         this.listenForUser();
+        this.showAltLogins();
     }
 }
 
