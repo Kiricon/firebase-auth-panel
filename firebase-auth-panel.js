@@ -553,10 +553,10 @@ class FirebaseLogin extends HTMLElement {
     showAltLogins() {
         const loginMethods = ['facebook', 'google', 'twitter', 'github'];
         const loginProviders = [
-            new firebase.auth.FacebookAuthProvider(),
-            new firebase.auth.GoogleAuthProvider(),
-            new firebase.auth.TwitterAuthProvider(),
-            new firebase.auth.GithubAuthProvider()
+            new this.firebase.auth.FacebookAuthProvider(),
+            new this.firebase.auth.GoogleAuthProvider(),
+            new this.firebase.auth.TwitterAuthProvider(),
+            new this.firebase.auth.GithubAuthProvider()
         ];
 
         for(let i = 0; i < loginMethods.length; i++) {

@@ -1,6 +1,6 @@
 {
   "name": "firebase-auth-panel",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A custom element implementation  of a firebase authentication panel",
   "main": "firebase-auth-panel.js",
   "scripts": {
